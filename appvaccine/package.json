@@ -1,0 +1,21 @@
+{
+	"name": "certnet",
+	"version": "1.0.0",
+	"description": "NodeJS Application Accessing The Certnet Chaincode on Fabric Network",
+	"main": "index.js",
+	"scripts": {
+		"test": "rm -rf identity && node index.js"
+	},
+	"author": "Gautam Kolluru",
+	"dependencies": {
+        "fabric-network": "^2.2.13",
+		"express": "^4.18.1",
+		"cors": "^2.8.5",
+		"js-yaml": "^4.1.0",
+		"express-session": "^1.17.3",
+        "nodemon": "^2.0.19"
+	},
+	"devDependencies": {
+		"eslint": "^8.18.0"
+	}
+}

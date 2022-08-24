@@ -1,0 +1,49 @@
+{
+    "name": "upstac-network-hospitalA",
+    "version": "1.0.0",
+    "client": {
+        "organization": "hospitalA",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "hospitalA": {
+            "mspid": "hospitalAMSP",
+            "peers": [
+                "peer0.hospitalA.upstac.com"
+            ],
+            "certificateAuthorities": [
+                "ca.hospitalA.upstac.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.hospitalA.upstac.com": {
+            "url": "grpcs://localhost:7051",
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICaDCCAg2gAwIBAgIQAqnOaG+eHiLAjzgKTn7YXDAKBggqhkjOPQQDAjB+MQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEdMBsGA1UEChMUaG9zcGl0YWxBLnVwc3RhYy5jb20xIzAhBgNVBAMT\nGnRsc2NhLmhvc3BpdGFsQS51cHN0YWMuY29tMB4XDTIyMDgxNzAzMzEwMFoXDTMy\nMDgxNDAzMzEwMFowfjELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWEx\nFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28xHTAbBgNVBAoTFGhvc3BpdGFsQS51cHN0\nYWMuY29tMSMwIQYDVQQDExp0bHNjYS5ob3NwaXRhbEEudXBzdGFjLmNvbTBZMBMG\nByqGSM49AgEGCCqGSM49AwEHA0IABLzQKZQL7OZoIfxzT0eaUrdmg2PhzJ8n845j\n78KcERdQgtQ7zydDXw3OoNuS4WIuqogdrezvaETRRIAj2aQFgiKjbTBrMA4GA1Ud\nDwEB/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0T\nAQH/BAUwAwEB/zApBgNVHQ4EIgQgwmM99X1At8BVLp4tbH0T9nwCKnq1F9Yti6XS\nEH2MYRUwCgYIKoZIzj0EAwIDSQAwRgIhAOtgZ2IqdkKeQJL6Y/7VvL9ywW0dS0uc\nHS98dlk8gHD/AiEA6W+J8m8OoenzCdBlBCHxXARRGICCRxQkAPJncyYYs38=\n-----END CERTIFICATE-----\n"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.hospitalA.upstac.com",
+                "hostnameOverride": "peer0.hospitalA.upstac.com"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.hospitalA.upstac.com": {
+            "url": "https://localhost:7054",
+            "caName": "ca-hospitalA",
+            "tlsCACerts": {
+                "pem": ["-----BEGIN CERTIFICATE-----\nMIICYjCCAgigAwIBAgIRAJ5LlEKQ37PLSJxvnoijZ2swCgYIKoZIzj0EAwIwezEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHTAbBgNVBAoTFGhvc3BpdGFsQS51cHN0YWMuY29tMSAwHgYDVQQD\nExdjYS5ob3NwaXRhbEEudXBzdGFjLmNvbTAeFw0yMjA4MTcwMzMxMDBaFw0zMjA4\nMTQwMzMxMDBaMHsxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYw\nFAYDVQQHEw1TYW4gRnJhbmNpc2NvMR0wGwYDVQQKExRob3NwaXRhbEEudXBzdGFj\nLmNvbTEgMB4GA1UEAxMXY2EuaG9zcGl0YWxBLnVwc3RhYy5jb20wWTATBgcqhkjO\nPQIBBggqhkjOPQMBBwNCAARtCu6HgfktH+d49C7Ll6boE19eO3DIWzm8Z+li0bxB\nQZHXxS8VB4oyYf59hu5vnDULq/87h79wEvbG0Ndu/jQzo20wazAOBgNVHQ8BAf8E\nBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMBMA8GA1UdEwEB/wQF\nMAMBAf8wKQYDVR0OBCIEINR4YUkWZLo05hf+bhCYr2jb4iV2MFBXgh+xV3OvlRRV\nMAoGCCqGSM49BAMCA0gAMEUCICpYRDTHlcqROvYurVBZzxqkUNVKVw9iD3NYqLML\n0Xz7AiEAnMLhq3VlVrb7ixqL3jkmo3PQu4WmMJI2/dbbZGs3KqM=\n-----END CERTIFICATE-----\n"]
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}

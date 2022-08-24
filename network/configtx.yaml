@@ -1,0 +1,186 @@
+Organizations:
+  - &OrdererOrg
+    Name: Orderer
+    ID: OrdererMSP
+    MSPDir: crypto-config/ordererOrganizations/upstac.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+    OrdererEndpoints:
+      - orderer.upstac.com:7050
+
+
+  - &hospitalA
+    Name: hospitalAMSP
+    ID: hospitalAMSP
+    MSPDir: crypto-config/peerOrganizations/hospitalA.upstac.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('hospitalAMSP.admin', 'hospitalAMSP.peer', 'hospitalAMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('hospitalAMSP.admin', 'hospitalAMSP.peer', 'hospitalAMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('hospitalAMSP.admin', 'hospitalAMSP.peer', 'hospitalAMSP.client')"
+    AnchorPeers:
+      - Host: peer0.hospitalA.upstac.com
+        Port: 7051
+
+  - &hospitalB
+    Name: hospitalBMSP
+    ID: hospitalBMSP
+    MSPDir: crypto-config/peerOrganizations/hospitalB.upstac.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('hospitalBMSP.admin', 'hospitalBMSP.peer', 'hospitalBMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('hospitalBMSP.admin', 'hospitalBMSP.peer', 'hospitalBMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('hospitalBMSP.admin', 'hospitalBMSP.peer', 'hospitalBMSP.client')"
+    AnchorPeers:
+      - Host: peer0.hospitalB.upstac.com
+        Port: 9051
+
+  - &government
+    Name: governmentMSP
+    ID: governmentMSP
+    MSPDir: crypto-config/peerOrganizations/government.upstac.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('governmentMSP.admin', 'governmentMSP.peer', 'governmentMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('governmentMSP.admin', 'governmentMSP.peer', 'governmentMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('governmentMSP.admin', 'governmentMSP.peer', 'governmentMSP.client')"
+    AnchorPeers:
+      - Host: peer0.government.upstac.com
+        Port: 11051
+
+
+
+#Capabilities
+
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_0: true
+
+#Application
+
+Application: &ApplicationDefaults
+  Organizations:
+  Policies: &ApplicationDefaultPolicies
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "ANY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "ANY Endorsement"
+  Capabilities: *ApplicationCapabilities
+
+#Orderer
+Orderer: &OrdererDefaults
+  OrdererType: solo
+  Addresses:
+    - orderer.upstac.com:7050
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  Capabilities: *OrdererCapabilities
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+
+Channel: &ChannelDefaults
+  Policies:
+    # Who may invoke the 'Deliver' API
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    # Who may invoke the 'Broadcast' API
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    # By default, who may modify elements at this config level
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+
+#Profiles
+Profiles:
+  OrdererGenesis:
+    <<: *ChannelDefaults
+    Capabilities:
+      <<: *ChannelCapabilities
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+      Capabilities:
+        <<: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - <<: *OrdererOrg
+    Consortiums:
+      UPSTACConsortium:
+        Organizations:
+          - *hospitalA
+          - *hospitalB
+          - *government
+
+  CommonChannel:
+    Consortium: UPSTACConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *hospitalA
+        - *hospitalB
+        - *government
+      Capabilities:
+        <<: *ApplicationCapabilities
